@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { api } from "../services/api";
+import api, { imgUrl } from "../services/api";
 
 export default function GameDetails() {
   const { id } = useParams();
