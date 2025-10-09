@@ -13,14 +13,14 @@ namespace backend.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly string _jwtKey = "segredo-super-seguro-aeg2025"; // mesma do Program.cs
+        private readonly IConfiguration _config;
 
-        public AuthController(AppDbContext context)
+        public AuthController(AppDbContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
 
-        // 🔹 Login
         [HttpPost("login")]
         public IActionResult Login([FromBody] Usuario login)
         {
@@ -31,7 +31,8 @@ namespace backend.Controllers
                 return Unauthorized("Usuário ou senha incorretos.");
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtKey);
+            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -53,7 +54,6 @@ namespace backend.Controllers
             });
         }
 
-        // 🔹 Cadastro de novo usuário (apenas para testes)
         [HttpPost("register")]
         public IActionResult Register([FromBody] Usuario novo)
         {

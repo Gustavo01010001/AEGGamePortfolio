@@ -1,5 +1,6 @@
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\appsettings.json
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\backend.staticwebassets.runtime.json
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\backend.staticwebassets.endpoints.json
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\backend.exe
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\backend.deps.json
@@ -7,6 +8,7 @@ C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\backen
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\backend.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\backend.pdb
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Humanizer.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.Build.Locator.dll
@@ -32,6 +34,12 @@ C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Micros
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.OpenApi.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Mono.TextTemplating.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\MySqlConnector.dll
@@ -48,6 +56,7 @@ C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\System
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\System.Composition.Hosting.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\System.Composition.Runtime.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\System.Composition.TypedParts.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\System.Text.Json.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
@@ -142,6 +151,7 @@ C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\backen
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\backend.csproj.CoreCompileInputs.cache
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\backend.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\backend.sourcelink.json
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\scopedcss\bundle\backend.styles.css
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\staticwebassets.build.json.cache
@@ -153,13 +163,3 @@ C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\refint
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\backend.pdb
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\backend.genruntimeconfig.cache
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\ref\backend.dll
-C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\backend.staticwebassets.runtime.json
-C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\backend.sourcelink.json

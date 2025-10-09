@@ -26,8 +26,8 @@ builder.Services.AddCors(opt =>
          .AllowAnyMethod());
 });
 
-// 🔹 Configuração de autenticação com JWT
-var key = Encoding.ASCII.GetBytes("segredo-super-seguro-aeg2025"); // <-- chave secreta
+// 🔹 JWT (pega chave do appsettings.json)
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -49,28 +49,18 @@ builder.Services.AddAuthentication(options =>
 // 🔹 Construção do app
 var app = builder.Build();
 
-// 🔹 Middleware de CORS e arquivos estáticos (para imagens)
 app.UseCors("AllowAll");
 app.UseStaticFiles();
 
-// 🔹 Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// 🔹 Middleware de autenticação e autorização
 app.UseAuthentication();
 app.UseAuthorization();
 
-// 🔹 Rota raiz -> redireciona para Swagger
 app.MapGet("/", () => Results.Redirect("/swagger"));
-
-// 🔹 Controllers
 app.MapControllers();
 
-// 🔹 Executa o servidor
 app.Run();
-
-
-
-// 💡 Comando para rodar o backend:
-// dotnet run --urls http://localhost:5000
+ // 💡 Comando para rodar o backend: 
+ // // dotnet run --urls http://localhost:5000
