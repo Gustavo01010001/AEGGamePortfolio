@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import api, { imgUrl } from "../services/api";
+import "./GameDetails.css";
 
 export default function GameDetails() {
   const { id } = useParams();
@@ -8,24 +9,58 @@ export default function GameDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get(`/Games/${id}`)
-      .then(r => setGame(r.data))
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    async function fetchGame() {
+      try {
+        const res = await api.get(`/api/games/${id}`);
+        setGame(res.data);
+      } catch (err) {
+        console.error("Erro ao carregar o jogo:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchGame();
   }, [id]);
 
   if (loading) return <p>Carregando...</p>;
-  if (!game) return <p>Jogo não encontrado. <Link to="/">Voltar</Link></p>;
+
+  if (!game) {
+    return (
+      <div style={{ textAlign: "center", marginTop: "50px" }}>
+        <p>Jogo não encontrado.</p>
+        <Link to="/">Voltar</Link>
+      </div>
+    );
+  }
 
   return (
-    <div style={{maxWidth:900,margin:"0 auto"}}>
-      {game.imagemUrl && <img src={game.imagemUrl} alt={game.titulo} style={{width:"100%",borderRadius:12}}/>}
-      <h1>{game.titulo}</h1>
-      <p><b>Gênero:</b> {game.genero}</p>
-      <p><b>Ano:</b> {game.ano}</p>
-      <p><b>Status:</b> {game.status}</p>
-      {game.demoUrl && <p><a href={game.demoUrl} target="_blank" rel="noreferrer">Jogar demo</a></p>}
-      <p><Link to="/">← Voltar</Link></p>
+    <div className="details-container">
+      <div className="details-card">
+        <img src={imgUrl(game.imagemUrl)} alt={game.titulo} />
+        <h2>{game.titulo}</h2>
+
+        <p><strong>Gênero:</strong> {game.genero}</p>
+        <p><strong>Ano:</strong> {game.ano}</p>
+        <p><strong>Status:</strong> {game.status}</p>
+
+        {game.linkDemo ? (
+          <a
+            href={game.linkDemo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-demo"
+          >
+            🎮 Baixar Demo
+          </a>
+        ) : (
+          <p style={{ color: "#aaa" }}>Nenhuma demo disponível.</p>
+        )}
+
+        <Link to="/" className="voltar-link">
+          ← Voltar
+        </Link>
+      </div>
     </div>
   );
 }

@@ -15,9 +15,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 // 🔹 Controllers, Swagger e CORS
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // ✅ Permite reconhecer propriedades independentemente de maiúsculas/minúsculas
+        // Exemplo: "email" == "Email", "senha" == "Senha"
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("AllowAll", p =>
@@ -49,6 +57,7 @@ builder.Services.AddAuthentication(options =>
 // 🔹 Construção do app
 var app = builder.Build();
 
+// 🔹 Pipeline do aplicativo
 app.UseCors("AllowAll");
 app.UseStaticFiles();
 
@@ -58,9 +67,19 @@ app.UseSwaggerUI();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// 🔹 Rota raiz -> redireciona para Swagger
 app.MapGet("/", () => Results.Redirect("/swagger"));
+
+// 🔹 Controllers
 app.MapControllers();
 
+// 🔹 Executa o servidor
 app.Run();
- // 💡 Comando para rodar o backend: 
- // // dotnet run --urls http://localhost:5000
+
+/*
+💡 Lembretes:
+1️⃣ appsettings.json precisa ter:
+    "Jwt": { "Key": "segredo-super-seguro-aeg2025" }
+2️⃣ Rodar com:
+    dotnet run --urls http://localhost:5000
+*/

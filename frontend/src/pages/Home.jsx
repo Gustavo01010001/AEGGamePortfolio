@@ -1,34 +1,49 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api, { imgUrl } from "../services/api";
+import "./Home.css";
 
 export default function Home() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get("/Games")
-      .then(r => setGames(r.data))
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    const fetchGames = async () => {
+      try {
+        const response = await api.get("/api/games");
+        setGames(response.data);
+      } catch (error) {
+        console.error("Erro ao carregar jogos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGames();
   }, []);
 
-  if (loading) return <p>Carregando...</p>;
-  if (!games.length) return <p>Sem jogos cadastrados ainda.</p>;
+  if (loading) return <p>Carregando catálogo...</p>;
 
   return (
-    <div style={{display:"grid",gap:16,gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))"}}>
-      {games.map(g => (
-        <Link key={g.id} to={`/game/${g.id}`} style={{textDecoration:"none",color:"inherit"}}>
-          <div style={{border:"1px solid #444",borderRadius:12,overflow:"hidden"}}>
-            {g.imagemUrl && <img src={g.imagemUrl} alt={g.titulo} style={{width:"100%",height:140,objectFit:"cover"}}/>}
-            <div style={{padding:12}}>
-              <h3 style={{margin:0}}>{g.titulo}</h3>
-              <small>{g.genero} • {g.ano} • {g.status}</small>
-            </div>
+    <div className="home-container">
+      <h1>🎮 Catálogo de Jogos AEG Studio</h1>
+      <div className="games-grid">
+        {games.map((game) => (
+          <div key={game.id} className="game-card">
+            <img
+              src={imgUrl(game.imagemUrl || "")}
+              alt={game.titulo}
+              className="game-img"
+              onError={(e) => (e.target.src = "/no-image.png")}
+            />
+            <h2>{game.titulo}</h2>
+            <p>Gênero: {game.genero}</p>
+            <p>Ano: {game.ano}</p>
+            <Link to={`/game/${game.id}`} className="btn">
+              Ver mais
+            </Link>
           </div>
-        </Link>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

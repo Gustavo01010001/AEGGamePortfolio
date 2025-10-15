@@ -20,39 +20,47 @@ namespace backend.Controllers
             _context = context;
             _config = config;
         }
+[HttpPost("login")]
+public IActionResult Login([FromBody] dynamic body)
+{
+    // extrai os campos do JSON recebido
+    string email = body?.email;
+    string senha = body?.senha;
 
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] Usuario login)
+    if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(senha))
+        return BadRequest("E-mail e senha são obrigatórios.");
+
+    // procura o usuário no banco
+    var user = _context.Usuarios.FirstOrDefault(u => u.Email == email && u.Senha == senha);
+
+    if (user == null)
+        return Unauthorized("Usuário ou senha incorretos.");
+
+    // gera o token JWT
+    var tokenHandler = new JwtSecurityTokenHandler();
+    var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
+
+    var tokenDescriptor = new SecurityTokenDescriptor
+    {
+        Subject = new ClaimsIdentity(new[]
         {
-            var user = _context.Usuarios.FirstOrDefault(u =>
-                u.Email == login.Email && u.Senha == login.Senha);
+            new Claim(ClaimTypes.Name, user.Email),
+            new Claim(ClaimTypes.Role, user.Role)
+        }),
+        Expires = DateTime.UtcNow.AddHours(4),
+        SigningCredentials = new SigningCredentials(
+            new SymmetricSecurityKey(key),
+            SecurityAlgorithms.HmacSha256Signature)
+    };
 
-            if (user == null)
-                return Unauthorized("Usuário ou senha incorretos.");
+    var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role)
-                }),
-                Expires = DateTime.UtcNow.AddHours(4),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return Ok(new
-            {
-                token = tokenHandler.WriteToken(token),
-                role = user.Role
-            });
-        }
+    return Ok(new
+    {
+        token = tokenHandler.WriteToken(token),
+        role = user.Role
+    });
+}
 
         [HttpPost("register")]
         public IActionResult Register([FromBody] Usuario novo)

@@ -1,42 +1,43 @@
 import { useState } from "react";
-import api from "../services/api";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [error, setError] = useState("");
 
-  async function handleLogin(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const res = await api.post("/api/Auth/login", { email, senha });
-      alert("Login realizado!");
-      console.log(res.data);
-      localStorage.setItem("token", res.data.token);
-    } catch (err) {
-      alert("Falha no login. Verifique suas credenciais.");
+      await login(email, senha);
+      navigate("/admin");
+    } catch {
+      setError("Usuário ou senha incorretos.");
     }
   }
 
   return (
     <div style={{ textAlign: "center", marginTop: "80px" }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      <h2>Área Administrativa</h2>
+      <form onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-        />
-        <br />
+        /><br />
         <input
           type="password"
           placeholder="Senha"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
-        />
-        <br />
+        /><br />
         <button type="submit">Entrar</button>
       </form>
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }

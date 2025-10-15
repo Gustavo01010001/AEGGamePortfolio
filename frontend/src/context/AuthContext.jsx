@@ -1,35 +1,43 @@
-import { createContext, useContext, useMemo, useState, useEffect } from "react";
-import { login as apiLogin } from "../services/auth";
+import { createContext, useContext, useState } from "react";
+import api from "../services/api"; // usa o axios já configurado
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(localStorage.getItem("token"));
-  const [role, setRole] = useState(localStorage.getItem("role"));
-  const isAuthenticated = !!token;
-  const isAdmin = role === "admin";
+  const [user, setUser] = useState(null);
 
-  const login = async ({ email, senha }) => {
-    const res = await apiLogin({ email, senha });
-    localStorage.setItem("token", res.token);
-    localStorage.setItem("role", res.role || "user");
-    setToken(res.token);
-    setRole(res.role || "user");
-  };
+ async function login(email, senha) {
+  try {
+    const response = await api.post("/api/Auth/login", { email, senha });
+    console.log("Resposta do backend:", response.data); // <── ajuda a ver no console
+    const { token, role } = response.data;
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    setToken(null);
-    setRole(null);
-  };
-
-  const value = useMemo(
-    () => ({ token, role, isAuthenticated, isAdmin, login, logout }),
-    [token, role, isAuthenticated, isAdmin]
-  );
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    localStorage.setItem("token", token);
+    localStorage.setItem("role", role);
+    setUser({ email, role });
+  } catch (err) {
+    console.error("Erro no login:", err.response?.data || err.message);
+    throw new Error("Usuário ou senha incorretos.");
+  }
 }
 
-export const useAuth = () => useContext(AuthContext);
+
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    setUser(null);
+  }
+
+  const isAuthenticated = !!localStorage.getItem("token");
+  const isAdmin = localStorage.getItem("role") === "admin";
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated, isAdmin }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
