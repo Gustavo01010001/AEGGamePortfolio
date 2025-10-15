@@ -79,7 +79,8 @@ app.Run();
 /*
 💡 Lembretes:
 1️⃣ appsettings.json precisa ter:
+dotnet run --urls http://localhost:5000
+*/
     "Jwt": { "Key": "segredo-super-seguro-aeg2025" }
 2️⃣ Rodar com:
-    dotnet run --urls http://localhost:5000
-*/
+    
