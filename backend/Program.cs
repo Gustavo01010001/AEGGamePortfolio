@@ -75,7 +75,7 @@ app.MapControllers();
 
 // 🔹 Executa o servidor
 app.Run();
-
+//oi
 /*
 💡 Lembretes:
 1️⃣ appsettings.json precisa ter:
