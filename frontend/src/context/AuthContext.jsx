@@ -8,8 +8,9 @@ export function AuthProvider({ children }) {
 
  async function login(email, senha) {
   try {
-    const response = await api.post("/api/Auth/login", { email, senha });
-    console.log("Resposta do backend:", response.data); // <── ajuda a ver no console
+    // enviar com as chaves capitalizadas para bater com LoginDto (Email, Senha)
+    const response = await api.post("/api/Auth/login", { Email: email, Senha: senha });
+    console.log("Resposta do backend:", response.data);
     const { token, role } = response.data;
 
     localStorage.setItem("token", token);

@@ -6,20 +6,23 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 🔹 Verifica e obtém connection string
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException("Connection string 'DefaultConnection' não encontrada. Configure-a em appsettings.json.");
+}
+
 // 🔹 Conexão com o banco MySQL
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
-    )
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
 );
 
 // 🔹 Controllers, Swagger e CORS
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        // ✅ Permite reconhecer propriedades independentemente de maiúsculas/minúsculas
-        // Exemplo: "email" == "Email", "senha" == "Senha"
+        // Permite reconhecer propriedades independentemente de maiúsculas/minúsculas
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
 
@@ -34,8 +37,14 @@ builder.Services.AddCors(opt =>
          .AllowAnyMethod());
 });
 
-// 🔹 JWT (pega chave do appsettings.json)
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+// 🔹 JWT (pega chave do appsettings.json) — valida existência da chave
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrWhiteSpace(jwtKey))
+{
+    throw new InvalidOperationException("Chave JWT não encontrada. Adicione 'Jwt:Key' em appsettings.json.");
+}
+var key = Encoding.ASCII.GetBytes(jwtKey);
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -61,6 +70,7 @@ var app = builder.Build();
 app.UseCors("AllowAll");
 app.UseStaticFiles();
 
+// Exibe Swagger — se preferir só em Development, envolva em if (app.Environment.IsDevelopment()) { ... }
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -72,12 +82,10 @@ app.MapGet("/", () => Results.Redirect("/swagger"));
 
 // 🔹 Controllers
 app.MapControllers();
-
+//dotnet run --urls http://localhost:5000
 // 🔹 Executa o servidor
 app.Run();
-//oi
 /*
 💡 Lembretes:
 1️⃣ appsettings.json precisa ter:
-dotnet run --urls http://localhost:5000
 */
