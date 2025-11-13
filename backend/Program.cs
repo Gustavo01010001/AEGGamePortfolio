@@ -59,7 +59,64 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuer = false,
-        ValidateAudience = false
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromSeconds(30)
+    };
+
+    options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+    {
+        OnMessageReceived = ctx =>
+        {
+            var logger = ctx.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("JwtEvents");
+            logger.LogInformation("OnMessageReceived. Authorization header present: {HasAuth}", ctx.Request.Headers.ContainsKey("Authorization"));
+            return Task.CompletedTask;
+        },
+        OnTokenValidated = async ctx =>
+        {
+            var logger = ctx.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("JwtEvents");
+            try
+            {
+                // pega email/unique_name do token
+                var email = ctx.Principal?.Identity?.Name ?? ctx.Principal?.FindFirst("unique_name")?.Value;
+                if (string.IsNullOrEmpty(email))
+                {
+                    logger.LogWarning("Token validated but no email claim found.");
+                    ctx.Fail("No user claim.");
+                    return;
+                }
+
+                // checar no banco se usuário existe/está ativo
+                var db = ctx.HttpContext.RequestServices.GetRequiredService<AppDbContext>();
+                var user = await db.Usuarios.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+                if (user == null)
+                {
+                    logger.LogWarning("Token user not found in DB: {Email}", email);
+                    ctx.Fail("User not found.");
+                    return;
+                }
+
+                // opcional: validar role/flags/etc
+                logger.LogInformation("Token validated and user found: {Email}", email);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error in OnTokenValidated");
+                ctx.Fail("Token validation error");
+            }
+        },
+        OnAuthenticationFailed = ctx =>
+        {
+            var logger = ctx.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("JwtEvents");
+            logger.LogError(ctx.Exception, "JWT authentication failed");
+            return Task.CompletedTask;
+        },
+        OnChallenge = ctx =>
+        {
+            var logger = ctx.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("JwtEvents");
+            logger.LogWarning("OnChallenge called, error: {Error}, description: {Desc}", ctx.Error, ctx.ErrorDescription);
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -82,10 +139,12 @@ app.MapGet("/", () => Results.Redirect("/swagger"));
 
 // 🔹 Controllers
 app.MapControllers();
-//dotnet run --urls http://localhost:5000
+
 // 🔹 Executa o servidor
 app.Run();
 /*
 💡 Lembretes:
 1️⃣ appsettings.json precisa ter:
 */
+
+curl.exe --% -v -H "Authorization: Bearer eyJhbGciOi..." http://localhost:5000/api/sua-rota-protegida
