@@ -163,3 +163,6 @@ C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\refint
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\backend.pdb
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\backend.genruntimeconfig.cache
 C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\obj\Debug\net9.0\ref\backend.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\gusta\OneDrive\Desktop\AEGGamePortfolio\backend\bin\Debug\net9.0\Microsoft.Extensions.FileSystemGlobbing.dll

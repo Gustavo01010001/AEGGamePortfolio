@@ -2,6 +2,7 @@ using backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.FileProviders;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -125,9 +126,26 @@ var app = builder.Build();
 
 // 🔹 Pipeline do aplicativo
 app.UseCors("AllowAll");
+
+
 app.UseStaticFiles();
 
-// Exibe Swagger — se preferir só em Development, envolva em if (app.Environment.IsDevelopment()) { ... }
+var imagesPath = Path.Combine(Directory.GetCurrentDirectory(), "images");
+
+if (!Directory.Exists(imagesPath))
+{
+    Directory.CreateDirectory(imagesPath);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(imagesPath),
+    RequestPath = "/images"
+});
+
+
+
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -146,5 +164,6 @@ app.Run();
 💡 Lembretes:
 1️⃣ appsettings.json precisa ter:
 */
-
-curl.exe --% -v -H "Authorization: Bearer eyJhbGciOi..." http://localhost:5000/api/sua-rota-protegida
+/*
+curl.exe --% -v -H "Authorization: Bearer eyJhbGciOi..." http://localhost:5000/api/sua-rota-protegida;
+*/

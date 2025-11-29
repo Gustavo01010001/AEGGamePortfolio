@@ -1,11 +1,15 @@
 import axios from "axios";
 
+export const baseURL = "http://localhost:5000";
+
+export const imgUrl = `${baseURL}/uploads/`;
+
+
 const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: baseURL,
   headers: { "Content-Type": "application/json" },
 });
 
-// anexar token automaticamente se existir
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -15,8 +19,5 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ...no frontend
-const resp = await api.get("/api/sua-rota-protegida");
-console.log(resp.data);
 
 export default api;
